@@ -16183,7 +16183,7 @@ table.employee-contact-table thead .sorting::after {
       margin-bottom: 1.25rem; } }
 
 #login-page1 body {
-  background: url(../../assets/images/background/login-bg.jpg);
+  background: url(../assets/images/background/login-bg.jpg);
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
