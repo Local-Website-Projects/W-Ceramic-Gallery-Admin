@@ -26,3 +26,36 @@ if (isset($_GET['status']) && isset($_GET['id'])) {
     ";
     }
 }
+
+
+if(isset($_POST['update_pass'])){
+    $old_pass = $db_handle->checkValue($_POST['old_pass']);
+    $new_pass = $db_handle->checkValue($_POST['new_pass']);
+    $confirm_new_pass = $db_handle->checkValue($_POST['confirm_new_pass']);
+    $id = $_SESSION['admin'];
+
+    $fetch_pass = $db_handle->runQuery("SELECT password FROM `admin` WHERE `admin_id`='$id'");
+    $pass = $fetch_pass[0]['password'];
+
+    if (password_verify($old_pass, $pass)){
+        if ($new_pass == $confirm_new_pass){
+            $hashed_password = password_hash($new_pass, PASSWORD_DEFAULT);
+            $update_pass = $db_handle->insertQuery("UPDATE `admin` SET `password`='$hashed_password' WHERE `admin_id`='$id'");
+            if($update_pass){
+                echo "
+                <script>
+                document.cookie='alert=4;';
+    window.location.href='Profile';
+</script>
+                ";
+            }
+        }
+    } else{
+        echo "
+        <script>
+        document.cookie='alert=5;';
+    window.location.href='Profile';
+</script>
+        ";
+    }
+}

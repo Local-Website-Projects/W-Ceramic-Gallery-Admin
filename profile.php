@@ -82,8 +82,37 @@ if(!isset($_SESSION['admin']))
         <!-- row -->
 
         <div class="container-fluid">
-            <!--enter page content here-->
             <div class="row justify-content-between mb-3">
+                <div class="col-lg-auto">
+                    <h2 class="page-heading">Change Password</h2>
+                </div>
+            </div>
+            <div class="col-xl-6 col-xxl-12">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <h3 class="card-title">Change your password</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="Update" method="post">
+                            <div class="form-group">
+                                <input type="password" id="old_pass" name="old_pass" class="form-control" placeholder="Old Password" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="new_pass" name="new_pass" class="form-control" placeholder="New Password" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="confirm_new_pass" name="confirm_new_pass" class="form-control" placeholder="Confirm New Password" required>
+                                <small id="error-message" style="color: red; display: none;">Passwords do not match</small>
+                            </div>
+                            <button class="btn btn-primary btn-lg floating-rounded waves-effect" type="submit" name="update_pass" id="submit-btn" disabled>
+                                Update Password
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--enter page content here-->
+            <div class="row justify-content-between mb-3 mt-5">
                 <div class="col-lg-auto">
                     <h2 class="page-heading">Admin List</h2>
                 </div>
@@ -156,6 +185,7 @@ if(!isset($_SESSION['admin']))
                 </div>
             </div>
         </div>
+
     </div>
     <!--**********************************
         Content body end
@@ -179,5 +209,28 @@ if(!isset($_SESSION['admin']))
     Scripts
 ***********************************-->
 <?php include ('include/js.php');?>
+
+<script>
+    // Getting references to input fields and the button
+    const newPassword = document.getElementById('new_pass');
+    const confirmNewPassword = document.getElementById('confirm_new_pass');
+    const submitButton = document.getElementById('submit-btn');
+    const errorMessage = document.getElementById('error-message');
+
+    // Function to check if passwords match
+    function checkPasswords() {
+        if (newPassword.value === confirmNewPassword.value && newPassword.value !== '') {
+            submitButton.disabled = false; // Enable the button
+            errorMessage.style.display = 'none'; // Hide the error message
+        } else {
+            submitButton.disabled = true; // Disable the button
+            errorMessage.style.display = 'block'; // Show the error message
+        }
+    }
+
+    // Add event listeners to input fields
+    newPassword.addEventListener('input', checkPasswords);
+    confirmNewPassword.addEventListener('input', checkPasswords);
+</script>
 </body>
 </html>
