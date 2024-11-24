@@ -20,3 +20,9 @@
 
 <script src="assets/plugins/datatables/js/jquery.dataTables.min.js"></script>
 <script src="js/plugins-init/datatables.init.js"></script>
+
+
+<script src="assets/plugins/toastr/js/toastr.min.js"></script>
+<script src="js/plugins-init/toastr-init.js"></script>
+
+

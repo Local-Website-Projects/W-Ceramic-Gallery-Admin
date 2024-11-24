@@ -12,12 +12,10 @@ if(isset($_POST['login'])){
         $hashedPassword = $fetchAdmin[0]['password'];
         if(password_verify($password, $hashedPassword)){
             $_SESSION['admin'] = $fetchAdmin[0]['admin_id'];
-            echo "
-            <script>
-            alert('Login Successful');
-            window.location.href='Dashboard';
-</script>
-            ";
+            echo "<script>
+                document.cookie = 'alert = 1;';
+                window.location.href='Dashboard';
+                </script>";
         }else{
             echo "<script>
 alert('Invalid Password');
@@ -43,6 +41,8 @@ alert('Invalid Password');
     <title>Ceramic Gallery - Login</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
+
+    <link href="assets/plugins/toastr/css/toastr.min.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 
@@ -81,6 +81,9 @@ alert('Invalid Password');
 <script src="assets/plugins/common/common.min.js"></script>
 <!-- Custom script -->
 <script src="js/custom.min.js"></script>
+
+<script src="assets/plugins/toastr/js/toastr.min.js"></script>
+<script src="js/plugins-init/toastr-init.js"></script>
 </body>
 
 </html>

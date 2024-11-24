@@ -17,8 +17,7 @@ if(!isset($_SESSION['admin']))
     <title>Unimax Gallery - Admin Panel</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
-    <link href="css/style.css" rel="stylesheet">
-
+    <?php include ('include/css.php');?>
 </head>
 
 <body>
@@ -107,24 +106,8 @@ if(!isset($_SESSION['admin']))
 <!--**********************************
     Scripts
 ***********************************-->
-<script src="assets/plugins/common/common.min.js"></script>
-<script src="js/custom.min.js"></script>
-<script src="js/settings.js"></script>
-<script src="js/quixnav.js"></script>
-<script src="js/styleSwitcher.js"></script>
+<?php include ('include/js.php');?>
 
-<!-- Chartjs chart -->
-<script src="assets/plugins/circle-progress/circle-progress.min.js"></script>
-<script src="assets/plugins/chart.js/Chart.bundle.min.js"></script>
-<script src="assets/plugins/amcharts/amcharts.js"></script>
-<script src="assets/plugins/amcharts/serial.js"></script>
-<script src="assets/plugins/amcharts/plugins/dataloader.min.js"></script>
-<script src="assets/plugins/amcharts/plugins/export.min.js"></script>
-<script src="assets/plugins/amcharts/ammap.js"></script>
-<script src="assets/plugins/amcharts/worldLow.js"></script>
-<script src="assets/plugins/amcharts/pie.js"></script>
-<script src="assets/plugins/amcharts/amstock.js"></script>
 
-<script src="js/dashboard/ecommenrce-dashboard-1.js"></script>
 </body>
 </html>

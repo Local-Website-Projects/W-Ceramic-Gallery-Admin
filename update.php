@@ -6,23 +6,23 @@ date_default_timezone_set("Asia/Dhaka");
 $updated_at = date("Y-m-d H:i:s");
 $today = date("Y-m-d");
 
-if(isset($_GET['status']) && isset($_GET['id'])){
-$status = $_GET['status'];
-$id = $_GET['id'];
-$update_status = $db_handle->insertQuery("UPDATE `admin` SET`status`='$status',`updated_at`='$updated_at' WHERE `admin_id`='$id'");
-if($update_status){
-    echo "
+if (isset($_GET['status']) && isset($_GET['id'])) {
+    $status = $_GET['status'];
+    $id = $_GET['id'];
+    $update_status = $db_handle->insertQuery("UPDATE `admin` SET`status`='$status',`updated_at`='$updated_at' WHERE `admin_id`='$id'");
+    if ($update_status) {
+        echo "
     <script>
-    alert('Status Updated Successfully!');
+    document.cookie='alert=4;';
     window.location.href='Profile';
 </script>
     ";
-} else{
-    echo "
+    } else {
+        echo "
     <script>
-    alert('Something Went Wrong!');
+    document.cookie='alert=5;';
     window.location.href='Profile';
 </script>
     ";
-}
+    }
 }
