@@ -26,3 +26,19 @@ if(isset($_POST['register'])){
         echo "<script>alert('Password did not match');</script>";
     }
 }
+
+if(isset($_POST['add_cat'])){
+    $sub_cat = $db_handle->checkValue($_POST['sub_cat']);
+    $cat_id = $db_handle->checkValue($_POST['cat_id']);
+
+    $insert_subcat = $db_handle->insertQuery("INSERT INTO `sub_category`(`sub_cat_name`, `cat_id`, `inserted_at`) VALUES ('$sub_cat','$cat_id','$inserted_at')");
+    if($insert_subcat){
+        echo "<script>document.cookie='alert=4;';
+                        window.location.href='Sub-Category';
+                    </script>";
+    } else {
+        echo "<script>document.cookie='alert=5;';
+                        window.location.href='Sub-Category';
+                    </script>";
+    }
+}

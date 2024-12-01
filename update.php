@@ -59,3 +59,52 @@ if(isset($_POST['update_pass'])){
         ";
     }
 }
+
+
+
+if (isset($_GET['status']) && isset($_GET['sub_cat_id'])) {
+    $sub_cat_id = $db_handle->checkValue($_GET['sub_cat_id']);
+    $status = $db_handle->checkValue($_GET['status']);
+
+    $update_subcat = $db_handle->insertQuery("UPDATE `sub_category` SET`subcat_status`='$status',`updated_at`='$updated_at' WHERE `sub_cat_id` = '$sub_cat_id'");
+
+    if($update_subcat){
+        echo "
+                <script>
+                document.cookie='alert=4;';
+    window.location.href='Sub-Category';
+</script>
+                ";
+    } else {
+        echo "
+                <script>
+                document.cookie='alert=5;';
+    window.location.href='Sub-Category';
+</script>
+                ";
+    }
+}
+
+
+if(isset($_POST['update_subCat'])){
+    $sub_cat_id = $db_handle->checkValue($_POST['sub_cat']);
+    $sub_cat_name = $db_handle->checkValue($_POST['sub_cat_name']);
+    $cat_id = $db_handle->checkValue($_POST['cat_id']);
+
+    $update_sub_cat = $db_handle->insertQuery("UPDATE `sub_category` SET `sub_cat_name`='$sub_cat_name',`cat_id`='$cat_id',`updated_at`='$updated_at' WHERE `sub_cat_id`='$sub_cat_id'");
+    if($update_sub_cat){
+        echo "
+                <script>
+                document.cookie='alert=4;';
+    window.location.href='Sub-Category';
+</script>
+                ";
+    } else {
+        echo "
+                <script>
+                document.cookie='alert=5;';
+    window.location.href='Sub-Category';
+</script>
+                ";
+    }
+}

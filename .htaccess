@@ -5,6 +5,7 @@ RewriteRule ^Signup signup.php [NE,L]
 RewriteRule ^Logout logout.php [NE,L]
 RewriteRule ^Profile profile.php [NE,L]
 RewriteRule ^Dashboard dashboard.php [NE,L]
+RewriteRule ^Sub-Category sub_category.php [NE,L]
 
 RewriteRule ^Insert insert.php [NE,L]
 RewriteRule ^Update update.php [NE,L]

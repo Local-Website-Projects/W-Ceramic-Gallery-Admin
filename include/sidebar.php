@@ -4,7 +4,12 @@
             <li class="nav-label">Dashboard</li>
             <li>
                 <a class="has-arrow" href="Dashboard" aria-expanded="false">
-                    <i class="icon-speedometer"></i><span class="nav-text">Dashboard</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a class="has-arrow" href="Sub-Category" aria-expanded="false">
+                    <span class="nav-text">Sub-Category</span>
                 </a>
             </li>
         </ul>
