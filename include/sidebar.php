@@ -12,6 +12,11 @@
                     <span class="nav-text">Sub-Category</span>
                 </a>
             </li>
+            <li>
+                <a class="has-arrow" href="Certificates" aria-expanded="false">
+                    <span class="nav-text">Certificates</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div>

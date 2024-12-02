@@ -108,3 +108,66 @@ if(isset($_POST['update_subCat'])){
                 ";
     }
 }
+
+if(isset($_GET['certificate_id']) && isset($_GET['status'])){
+    $update_certificate_status = $db_handle->insertQuery("UPDATE `certificates` SET `status`='{$_GET['status']}' WHERE `certificate_id`={$_GET['certificate_id']}");
+
+    if($update_certificate_status){
+        echo "
+                <script>
+                document.cookie='alert=4;';
+    window.location.href='Certificates';
+</script>
+                ";
+    } else {
+        echo "
+                <script>
+                document.cookie='alert=5;';
+    window.location.href='Certificates';
+</script>
+                ";
+    }
+}
+
+
+if(isset($_POST['update_certificate'])){
+    $certificate_id = $db_handle->checkValue($_POST['certificate_id']);
+    $certificate_title = $db_handle->checkValue($_POST['certificate_title']);
+    $image = '';
+    $query = '';
+    if (!empty($_FILES['certificate_image']['name'])) {
+        $RandomAccountNumber = mt_rand(1, 99999);
+        $file_name = $RandomAccountNumber . "_" . $_FILES['certificate_image']['name'];
+        $file_size = $_FILES['certificate_image']['size'];
+        $file_tmp = $_FILES['certificate_image']['tmp_name'];
+
+        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        if ($file_type != "jpg" && $file_type != "png" && $file_type != "jpeg" && $file_type != "svg") {
+            $image = '';
+        } else {
+            $data = $db_handle->runQuery("select * FROM `certificates` WHERE certificate_id='{$certificate_id}'");
+            unlink($data[0]['certificate_file']);
+            move_uploaded_file($file_tmp, "assets/certificates/" . $file_name);
+            $image = "assets/certificates/" . $file_name;
+            $query .= ",`certificate_file`='" . $image . "'";
+        }
+    }
+
+    $update_certificate = $db_handle->insertQuery("update certificates set certificate_name='$certificate_title',`updated_at` = '$updated_at'" . $query . " where certificate_id={$certificate_id}");
+
+    if($update_certificate){
+        echo "
+                <script>
+                document.cookie='alert=4;';
+                window.location.href='Certificates';
+</script>
+                ";
+    } else {
+        echo "
+                <script>
+                document.cookie='alert=5;';
+    window.location.href='Certificates';
+</script>
+                ";
+    }
+}

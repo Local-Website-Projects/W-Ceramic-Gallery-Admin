@@ -6,33 +6,33 @@ date_default_timezone_set("Asia/Dhaka");
 $inserted_at = date("Y-m-d H:i:s");
 $today = date("Y-m-d");
 
-if(isset($_POST['register'])){
+if (isset($_POST['register'])) {
     $name = $db_handle->checkValue($_POST['name']);
     $email = $db_handle->checkValue($_POST['email']);
     $password = $db_handle->checkValue($_POST['password']);
     $cpassword = $db_handle->checkValue($_POST['cpassword']);
 
-    if($password == $cpassword){
+    if ($password == $cpassword) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $registerAdmin = $db_handle->insertQuery("INSERT INTO `admin`(`name`, `email`, `password`, `inserted_at`) VALUES ('$name','$email','$hashedPassword','$inserted_at')");
-        if($registerAdmin){
+        if ($registerAdmin) {
             echo "<script>alert('Registration Successful!');
                         window.location.href='Login';
                     </script>";
-        }else {
+        } else {
             echo "<script>alert('Something Went Wrong!');</script>";
         }
-    }else {
+    } else {
         echo "<script>alert('Password did not match');</script>";
     }
 }
 
-if(isset($_POST['add_cat'])){
+if (isset($_POST['add_cat'])) {
     $sub_cat = $db_handle->checkValue($_POST['sub_cat']);
     $cat_id = $db_handle->checkValue($_POST['cat_id']);
 
     $insert_subcat = $db_handle->insertQuery("INSERT INTO `sub_category`(`sub_cat_name`, `cat_id`, `inserted_at`) VALUES ('$sub_cat','$cat_id','$inserted_at')");
-    if($insert_subcat){
+    if ($insert_subcat) {
         echo "<script>document.cookie='alert=4;';
                         window.location.href='Sub-Category';
                     </script>";
@@ -40,5 +40,40 @@ if(isset($_POST['add_cat'])){
         echo "<script>document.cookie='alert=5;';
                         window.location.href='Sub-Category';
                     </script>";
+    }
+}
+
+if (isset($_POST['add_certificate'])) {
+    $certificate_title = $db_handle->checkValue($_POST['certificate_title']);
+    $image = '';
+    if (!empty($_FILES['certificate_image']['name'])) {
+        $RandomAccountNumber = mt_rand(1, 99999);
+        $file_name = $RandomAccountNumber . "_" . $_FILES['certificate_image']['name'];
+        $file_size = $_FILES['certificate_image']['size'];
+        $file_tmp  = $_FILES['certificate_image']['tmp_name'];
+
+        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        if ($file_type != "jpg" && $file_type != "png" && $file_type != "svg") {
+            $attach_files = '';
+            echo "<script>
+                document.cookie = 'alert = 5;';
+                window.location.href='Certificates';
+                </script>";
+
+        }
+        move_uploaded_file($file_tmp, "assets/certificates/" . $file_name);
+        $image = "assets/certificates/" . $file_name;
+    }
+
+    $insert_certificate = $db_handle->insertQuery("INSERT INTO `certificates`(`certificate_name`, `certificate_file`, `inserted_at`) VALUES ('$certificate_title','$image','$inserted_at')");
+    if($insert_certificate){
+        echo "<script>document.cookie='alert=4;';
+                        window.location.href='Certificates';
+                    </script>";
+    } else{
+        echo "<script>
+                document.cookie = 'alert = 5;';
+                window.location.href='Certificates';
+                </script>";
     }
 }
