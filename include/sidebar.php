@@ -17,6 +17,11 @@
                     <span class="nav-text">Certificates</span>
                 </a>
             </li>
+            <li>
+                <a class="has-arrow" href="Brands" aria-expanded="false">
+                    <span class="nav-text">Brands</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div>

@@ -77,3 +77,56 @@ if (isset($_POST['add_certificate'])) {
                 </script>";
     }
 }
+
+
+if(isset($_POST['add_brand'])){
+    $image = '';
+    $color_image = '';
+    if (!empty($_FILES['brand_image']['name'])) {
+        $RandomAccountNumber = mt_rand(1, 99999);
+        $file_name = $RandomAccountNumber . "_" . $_FILES['brand_image']['name'];
+        $file_size = $_FILES['brand_image']['size'];
+        $file_tmp  = $_FILES['brand_image']['tmp_name'];
+
+        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        if ($file_type != "jpg" && $file_type != "png" && $file_type != "svg") {
+            $attach_files = '';
+            echo "<script>
+                document.cookie = 'alert = 5;';
+                window.location.href='Brands';
+                </script>";
+
+        }
+        move_uploaded_file($file_tmp, "assets/brand/" . $file_name);
+        $image = "assets/brand/" . $file_name;
+    }
+
+    if (!empty($_FILES['brand_image_color']['name'])) {
+        $RandomAccountNumber = mt_rand(1, 99999);
+        $file_name = $RandomAccountNumber . "_" . $_FILES['brand_image_color']['name'];
+        $file_size = $_FILES['brand_image_color']['size'];
+        $file_tmp  = $_FILES['brand_image_color']['tmp_name'];
+
+        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        if ($file_type != "jpg" && $file_type != "png" && $file_type != "svg") {
+            $attach_files = '';
+            echo "<script>
+                document.cookie = 'alert = 5;';
+                window.location.href='Brands';
+                </script>";
+        }
+        move_uploaded_file($file_tmp, "assets/brand/" . $file_name);
+        $color_image = "assets/brand/" . $file_name;
+    }
+
+    $insert_brand = $db_handle->insertQuery("INSERT INTO `brands`( `main_image`, `hover_image`, `inserted_at`) VALUES ('$image','$color_image','$inserted_at')");
+    if($insert_brand){
+        echo "<script>document.cookie='alert=4;';
+                        window.location.href='Brands';
+                    </script>";
+    } else {
+        echo "<script>document.cookie='alert=5;';
+                        window.location.href='Brands';
+                    </script>";
+    }
+}

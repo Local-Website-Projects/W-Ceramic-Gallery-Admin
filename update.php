@@ -171,3 +171,96 @@ if(isset($_POST['update_certificate'])){
                 ";
     }
 }
+
+if(isset($_GET['brand_id']) && isset($_GET['status'])){
+    $update_brand = $db_handle->insertQuery("update brands set status = {$_GET['status']} where brand_id = {$_GET['brand_id']}");
+    if($update_brand){
+        echo "
+                <script>
+                document.cookie='alert=4;';
+                window.location.href='Brands';
+</script>
+                ";
+    } else {
+        echo "
+                <script>
+                document.cookie='alert=5;';
+                window.location.href='Brands';
+</script>
+                ";
+    }
+}
+
+if(isset($_POST['update_brand'])){
+    $brand_id = $db_handle->checkValue($_POST['brand_id']);
+    $image = '';
+    $query = '';
+    if (!empty($_FILES['brand_image']['name'])) {
+        $RandomAccountNumber = mt_rand(1, 99999);
+        $file_name = $RandomAccountNumber . "_" . $_FILES['brand_image']['name'];
+        $file_size = $_FILES['brand_image']['size'];
+        $file_tmp = $_FILES['brand_image']['tmp_name'];
+
+        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        if ($file_type != "jpg" && $file_type != "png" && $file_type != "jpeg" && $file_type != "svg") {
+            $image = '';
+        } else {
+            $data = $db_handle->runQuery("select * FROM `brands` WHERE brand_id ='{$brand_id}'");
+            unlink($data[0]['main_image']);
+            move_uploaded_file($file_tmp, "assets/brand/" . $file_name);
+            $image = "assets/brand/" . $file_name;
+            $query .= ",`main_image`='" . $image . "'";
+        }
+    }
+
+    $color_image = '';
+    $query_new = '';
+    if (!empty($_FILES['brand_image_color']['name'])) {
+        $RandomAccountNumber = mt_rand(1, 99999);
+        $file_name = $RandomAccountNumber . "_" . $_FILES['brand_image_color']['name'];
+        $file_size = $_FILES['brand_image_color']['size'];
+        $file_tmp = $_FILES['brand_image_color']['tmp_name'];
+
+        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        if ($file_type != "jpg" && $file_type != "png" && $file_type != "jpeg" && $file_type != "svg") {
+            $color_image = '';
+        } else {
+            $data = $db_handle->runQuery("select * FROM `brands` WHERE brand_id ='{$brand_id}'");
+            unlink($data[0]['hover_image']);
+            move_uploaded_file($file_tmp, "assets/brand/" . $file_name);
+            $color_image = "assets/brand/" . $file_name;
+            $query_new .= ",`hover_image`='" . $color_image . "'";
+        }
+    }
+
+    $update_fields = "updated_at = '$updated_at'";
+
+// Append `main_image` update if `$query` is not empty
+    if (!empty($query)) {
+        $update_fields .= $query;
+    }
+
+// Append `hover_image` update if `$query_new` is not empty
+    if (!empty($query_new)) {
+        $update_fields .= $query_new;
+    }
+
+// Execute the update query
+    $update_brand = $db_handle->insertQuery("UPDATE brands SET $update_fields WHERE brand_id = {$brand_id}");
+    if($update_brand){
+        echo "
+                <script>
+                document.cookie='alert=4;';
+                window.location.href='Brands';
+</script>
+                ";
+    } else {
+        echo "
+                <script>
+                document.cookie='alert=5;';
+                window.location.href='Brands';
+</script>
+                ";
+    }
+
+}
