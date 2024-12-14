@@ -130,3 +130,39 @@ if(isset($_POST['add_brand'])){
                     </script>";
     }
 }
+
+
+if (isset($_POST['add_design_cat'])) {
+    $cat_name = $db_handle->checkValue($_POST['cat_name']);
+    $image = '';
+    if (!empty($_FILES['cat_image']['name'])) {
+        $RandomAccountNumber = mt_rand(1, 99999);
+        $file_name = $RandomAccountNumber . "_" . $_FILES['cat_image']['name'];
+        $file_size = $_FILES['cat_image']['size'];
+        $file_tmp  = $_FILES['cat_image']['tmp_name'];
+
+        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        if ($file_type != "jpg" && $file_type != "png" && $file_type != "svg") {
+            $attach_files = '';
+            echo "<script>
+                document.cookie = 'alert = 5;';
+                window.location.href='Category';
+                </script>";
+
+        }
+        move_uploaded_file($file_tmp, "assets/category/" . $file_name);
+        $image = "assets/category/" . $file_name;
+    }
+
+    $insert_certificate = $db_handle->insertQuery("INSERT INTO `design_category`(`category_name`, `cat_image`, `inserted_at`) VALUES ('$cat_name','$image','$inserted_at')");
+    if($insert_certificate){
+        echo "<script>document.cookie='alert=4;';
+                        window.location.href='Category';
+                    </script>";
+    } else{
+        echo "<script>
+                document.cookie = 'alert = 5;';
+                window.location.href='Category';
+                </script>";
+    }
+}

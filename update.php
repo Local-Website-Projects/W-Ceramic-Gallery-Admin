@@ -172,6 +172,8 @@ if(isset($_POST['update_certificate'])){
     }
 }
 
+
+
 if(isset($_GET['brand_id']) && isset($_GET['status'])){
     $update_brand = $db_handle->insertQuery("update brands set status = {$_GET['status']} where brand_id = {$_GET['brand_id']}");
     if($update_brand){
@@ -263,4 +265,67 @@ if(isset($_POST['update_brand'])){
                 ";
     }
 
+}
+
+
+if (isset($_GET['status']) && isset($_GET['cat_id'])){
+    $update_brand = $db_handle->insertQuery("update design_category set status = {$_GET['status']} where id = {$_GET['cat_id']}");
+    if($update_brand){
+        echo "
+                <script>
+                document.cookie='alert=4;';
+                window.location.href='Category';
+</script>
+                ";
+    } else {
+        echo "
+                <script>
+                document.cookie='alert=5;';
+                window.location.href='Category';
+</script>
+                ";
+    }
+}
+
+
+if(isset($_POST['update_category'])){
+    $cat_id = $db_handle->checkValue($_POST['cat_id']);
+    $cat_name = $db_handle->checkValue($_POST['cat_name']);
+    $image = '';
+    $query = '';
+    if (!empty($_FILES['cat_image']['name'])) {
+        $RandomAccountNumber = mt_rand(1, 99999);
+        $file_name = $RandomAccountNumber . "_" . $_FILES['cat_image']['name'];
+        $file_size = $_FILES['cat_image']['size'];
+        $file_tmp = $_FILES['cat_image']['tmp_name'];
+
+        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        if ($file_type != "jpg" && $file_type != "png" && $file_type != "jpeg" && $file_type != "svg") {
+            $image = '';
+        } else {
+            $data = $db_handle->runQuery("select * FROM `design_category` WHERE id='{$cat_id}'");
+            unlink($data[0]['cat_image']);
+            move_uploaded_file($file_tmp, "assets/category/" . $file_name);
+            $image = "assets/category/" . $file_name;
+            $query .= ",`cat_image`='" . $image . "'";
+        }
+    }
+
+    $update_category= $db_handle->insertQuery("update design_category set category_name='$cat_name',`updated_at` = '$updated_at'" . $query . " where id={$cat_id}");
+
+    if($update_category){
+        echo "
+                <script>
+                document.cookie='alert=4;';
+                window.location.href='Category';
+</script>
+                ";
+    } else {
+        echo "
+                <script>
+                document.cookie='alert=5;';
+    window.location.href='Category';
+</script>
+                ";
+    }
 }

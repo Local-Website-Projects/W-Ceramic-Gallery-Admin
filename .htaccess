@@ -8,6 +8,7 @@ RewriteRule ^Dashboard dashboard.php [NE,L]
 RewriteRule ^Sub-Category sub_category.php [NE,L]
 RewriteRule ^Certificates certificates.php [NE,L]
 RewriteRule ^Brands brands.php [NE,L]
+RewriteRule ^Category design_cat.php [NE,L]
 
 RewriteRule ^Insert insert.php [NE,L]
 RewriteRule ^Update update.php [NE,L]
