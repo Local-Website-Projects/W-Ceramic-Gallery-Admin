@@ -166,3 +166,39 @@ if (isset($_POST['add_design_cat'])) {
                 </script>";
     }
 }
+
+
+if (isset($_POST['add_design_idea'])) {
+    $cat_id = $db_handle->checkValue($_POST['cat_id']);
+    $image = '';
+    if (!empty($_FILES['design_image']['name'])) {
+        $RandomAccountNumber = mt_rand(1, 99999);
+        $file_name = $RandomAccountNumber . "_" . $_FILES['design_image']['name'];
+        $file_size = $_FILES['design_image']['size'];
+        $file_tmp  = $_FILES['design_image']['tmp_name'];
+
+        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        if ($file_type != "jpg" && $file_type != "png" && $file_type != "svg") {
+            $attach_files = '';
+            echo "<script>
+                document.cookie = 'alert = 5;';
+                window.location.href='Design-Idea';
+                </script>";
+
+        }
+        move_uploaded_file($file_tmp, "assets/design_idea/" . $file_name);
+        $image = "assets/design_idea/" . $file_name;
+    }
+
+    $insert_certificate = $db_handle->insertQuery("INSERT INTO `design_idea`(`cat_id`, `design_file`, `inserted_at`) VALUES ('$cat_id','$image','$inserted_at')");
+    if($insert_certificate){
+        echo "<script>document.cookie='alert=4;';
+                        window.location.href='Design-Idea';
+                    </script>";
+    } else{
+        echo "<script>
+                document.cookie = 'alert = 5;';
+                window.location.href='Design-Idea';
+                </script>";
+    }
+}

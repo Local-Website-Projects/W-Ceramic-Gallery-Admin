@@ -27,6 +27,11 @@
                     <span class="nav-text">Category (Design Idea)</span>
                 </a>
             </li>
+            <li>
+                <a class="has-arrow" href="Design-Idea" aria-expanded="false">
+                    <span class="nav-text">Design Idea</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div>

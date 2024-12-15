@@ -329,3 +329,23 @@ if(isset($_POST['update_category'])){
                 ";
     }
 }
+
+
+if (isset($_GET['status']) && isset($_GET['design_id'])){
+    $update_design = $db_handle->insertQuery("update design_idea set status = {$_GET['status']} where design_id = {$_GET['design_id']}");
+    if($update_design){
+        echo "
+                <script>
+                document.cookie='alert=4;';
+                window.location.href='Design-Idea';
+</script>
+                ";
+    } else {
+        echo "
+                <script>
+                document.cookie='alert=5;';
+                window.location.href='Design-Idea';
+</script>
+                ";
+    }
+}
