@@ -39,6 +39,7 @@
                                     <input type="password" class="form-control" name="cpassword" placeholder="Confirm password" required>
                                 </div>
                                 <button class="btn btn-lg border-white gradient-11 gradient-11-hover gradient-11-shadow w-100" type="submit" name="register">Register</button>
+                                <p class="mt-3">You already have a account? <a href="Login">Login</a></p>
                             </form>
                         </div>
                     </div>

@@ -68,6 +68,7 @@ alert('Invalid Password');
                                     <input type="password" name="password" class="form-control" placeholder="Password" required>
                                 </div>
                                 <button class="btn btn-lg border-white gradient-9 gradient-9-hover gradient-9-shadow w-100" type="submit" name="login">Login</button>
+                                <p class="mt-3">You do not have a account? <a href="Signup">Sign Up</a></p>
                             </form>
                         </div>
                     </div>

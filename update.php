@@ -349,3 +349,44 @@ if (isset($_GET['status']) && isset($_GET['design_id'])){
                 ";
     }
 }
+
+if(isset($_POST['update_design_idea'])){
+$cat_id = $db_handle->checkValue($_POST['cat_id']);
+$design_id = $db_handle->checkValue($_POST['design_id']);
+
+    $image = '';
+    $query = '';
+    if (!empty($_FILES['design_idea_image']['name'])) {
+        $RandomAccountNumber = mt_rand(1, 99999);
+        $file_name = $RandomAccountNumber . "_" . $_FILES['design_idea_image']['name'];
+        $file_size = $_FILES['design_idea_image']['size'];
+        $file_tmp = $_FILES['design_idea_image']['tmp_name'];
+
+        $file_type = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        if ($file_type != "jpg" && $file_type != "png" && $file_type != "jpeg" && $file_type != "svg") {
+            $image = '';
+        } else {
+            $data = $db_handle->runQuery("select * FROM `design_category` WHERE id='{$cat_id}'");
+            unlink($data[0]['design_idea_image']);
+            move_uploaded_file($file_tmp, "assets/design_idea/" . $file_name);
+            $image = "assets/design_idea/" . $file_name;
+            $query .= ",`design_file`='" . $image . "'";
+        }
+    }
+    $update_design_idea = $db_handle->insertQuery("update design_idea set cat_id ='$cat_id',`updated_at` = '$updated_at'" . $query . " where design_id ={$design_id}");
+    if($update_design_idea){
+        echo "
+                <script>
+                document.cookie='alert=4;';
+                window.location.href='Design-Idea';
+</script>
+                ";
+    } else {
+        echo "
+                <script>
+                document.cookie='alert=5;';
+                window.location.href='Design-Idea';
+</script>
+                ";
+    }
+}

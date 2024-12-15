@@ -151,16 +151,17 @@ if (!isset($_SESSION['admin']))
                             <div class="table-responsive">
                                 <?php
                                 if (isset($_GET['design_id'])) {
-                                    $fetch_design = $db_handle->runQuery("SELECT * FROM `design_idea` WHERE `design_id`={$_GET['design_id']}");
+                                    $fetch_design = $db_handle->runQuery("SELECT design_id,cat_id,design_file,category_name FROM `design_idea`,`design_category` WHERE design_idea.cat_id = design_category.id and design_idea.design_id = {$_GET['design_id']}");
                                     ?>
                                     <div class="card-header pb-0">
                                         <h3 class="card-title">Update Design Idea</h3>
                                     </div>
                                     <div class="card-body">
                                         <form action="Update" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" name="design_id" value="<?php echo $_GET['design_id']?>">
                                             <div class="form-group">
                                                 <select style="display: inline-block; width: 100%; padding: 15px; border: none !important;background: #F7FAFC;" name="cat_id" required>
-                                                    <option selected disabled>Select Design Category</option>
+                                                    <option value="<?php echo $fetch_design[0]['cat_id'];?>" selected><?php echo $fetch_design[0]['category_name'];?></option>
                                                     <?php
                                                     $fetch_cat = $db_handle->runQuery("select * from design_category where status=1 order by id desc");
                                                     $fetch_cat_no = $db_handle->numRows("select * from design_category where status=1 order by id desc");
@@ -174,10 +175,10 @@ if (!isset($_SESSION['admin']))
                                             </div>
                                             <div class="form-group form-control-shadow">
                                                 <label>Certificate Image</label>
-                                                <input type="file" class="form-control" name="certificate_image" accept=".jpg, .jpeg, .png, .svg" required style="padding: 0 !important">
+                                                <input type="file" class="form-control" name="design_idea_image" accept=".jpg, .jpeg, .png, .svg" required style="padding: 0 !important">
                                             </div>
                                             <img src="<?php echo $fetch_design[0]['design_file'];?>" width="200px"><br>
-                                            <button type="submit" name="update_certificate" class="btn btn-primary rounded-0 mt-3">Save
+                                            <button type="submit" name="update_design_idea" class="btn btn-primary rounded-0 mt-3">Save
                                                 changes
                                             </button>
                                         </form>
@@ -197,8 +198,8 @@ if (!isset($_SESSION['admin']))
                                         </thead>
                                         <tbody>
                                         <?php
-                                        $fetch_design = $db_handle->runQuery("SELECT * FROM `design_category`,`design_idea` WHERE design_idea.design_id = design_category.id ORDER BY design_idea.design_id DESC");
-                                        $fetch_design_no = $db_handle->numRows("SELECT * FROM `design_category`,`design_idea` WHERE design_idea.design_id = design_category.id ORDER BY design_idea.design_id DESC");
+                                        $fetch_design = $db_handle->runQuery("SELECT * FROM `design_category`,`design_idea` WHERE design_idea.cat_id = design_category.id ORDER BY design_idea.design_id DESC");
+                                        $fetch_design_no = $db_handle->numRows("SELECT * FROM `design_category`,`design_idea` WHERE design_idea.cat_id = design_category.id ORDER BY design_idea.design_id DESC");
                                         for ($i = 0; $i < ($fetch_design_no); $i++) {
                                             ?>
                                             <tr>
